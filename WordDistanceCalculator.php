@@ -1,7 +1,7 @@
 <?php
 
 /**
- * [Description slovoProcessor]
+ * Класс решает задачу поиска расстояний между словами в тексте, где единица расстояния слово. 
  */
 class WordDistanceCalculator
 {
@@ -15,7 +15,9 @@ class WordDistanceCalculator
     public $maxDistance;
 
     /**
-     * @param string $text Исходный текст для поска расстояний слов
+     * @param mixed $text  Исходный текст для поска расстояний слов
+     * @param mixed $word1 Первое слово для поиска
+     * @param mixed $word2 Второе слово для поиска
      */
     function __construct($text, $word1, $word2)
     {
@@ -53,7 +55,7 @@ class WordDistanceCalculator
         foreach ($this->arrayKeysWord1 as $key1) {
             foreach ($this->arrayKeysWord2 as $key2) {
 
-                $distance = abs($key1 - $key2)-1;
+                $distance = abs($key1 - $key2) - 1;
 
                 if ($distance > $this->maxDistance) {
                     $this->maxDistance = $distance;
@@ -66,8 +68,6 @@ class WordDistanceCalculator
         }
     }
 }
-
-
 
 if (isset($argv[1]) && isset($argv[2])) {
     $calculator = new WordDistanceCalculator(file_get_contents('./input.txt'), $argv[1], $argv[2]);
