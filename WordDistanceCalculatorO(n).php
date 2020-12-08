@@ -39,7 +39,7 @@ class WordDistanceCalculator
     {
         $text = str_replace(PHP_EOL, ' ', $text); //конец строки ненужен
         $this->text = preg_replace('/|[\s]+|s/u', ' ', $text); //сдвоенные пробелы не нужны
-        $this->text = preg_replace('/[^a-zа-яA-ZА-ЯёЁ ]/u', '', $text); //оставляем буквы и пробелы
+        $this->text = preg_replace('/[^a-zа-яA-ZА-ЯёЁ0-9 ]/u', '', $text); //оставляем буквы, цифры и пробелы
     }
 
     /**
@@ -53,7 +53,23 @@ class WordDistanceCalculator
         $this->arrayKeysWord1 = array_keys($this->wordsArray, $this->word1);
         $this->arrayKeysWord2 = array_keys($this->wordsArray, $this->word2);
 
-        $this->minDistance = 'O(n^2)';
+        $this->minDistance = count($this->wordsArray);
+        $prevWord = [];
+        foreach ($this->wordsArray as $key => $value) {
+            if (($value == $this->word1) || ($value == $this->word2)) {
+                if (count($prevWord) > 0) {
+                    if ($prevWord['value'] <> $value) {
+                        if (($key - $prevWord['key']) < $this->minDistance) {
+                            $this->minDistance = ($key - $prevWord['key'])-1;
+                        }
+                    } else {
+                        $prevWord = ['key' => $key, 'value' => $value];
+                    }
+                } else {
+                    $prevWord = ['key' => $key, 'value' => $value];
+                }
+            }
+        }
 
         $this->maxKeyWord1 = max($this->arrayKeysWord1);
         $this->minKeyWord1 = min($this->arrayKeysWord1);
@@ -61,14 +77,10 @@ class WordDistanceCalculator
         $this->minKeyWord2 = min($this->arrayKeysWord2);
 
         if (abs($this->maxKeyWord1 - $this->minKeyWord2) > abs($this->maxKeyWord2 - $this->minKeyWord1)) {
-            $this->maxDistance = abs($this->maxKeyWord1 - $this->minKeyWord2)-1;
+            $this->maxDistance = abs($this->maxKeyWord1 - $this->minKeyWord2) - 1;
         } else {
-            $this->maxDistance = abs($this->maxKeyWord2 - $this->minKeyWord1)-1;
+            $this->maxDistance = abs($this->maxKeyWord2 - $this->minKeyWord1) - 1;
         }
-
-      
-
-
     }
 }
 
