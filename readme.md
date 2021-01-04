@@ -1,8 +1,7 @@
 ### Тестовое задание на должность PHP-разработчик
 #### Задание: 
-```
- Given a text file with words, find the shortest and maximum distance between two given words. Distance is the number of words between these 2 given words. Please provide an estimate of the complexity of your algorithm O(n).
-```
+
+ *Given a text file with words, find the shortest and maximum distance between two given words. Distance is the number of words between these 2 given words. Please provide an estimate of the complexity of your algorithm O(n).*
 
 #### Сложность приведенного алгоритма
 ```
